@@ -64,3 +64,50 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+🎬 CineLaravel - Gestión de Cartelera Digital
+
+🚀 Sprint 1: Configuración y Autenticación
+Este proyecto es una aplicación web desarrollada con Laravel 9.5 para gestionar la cartelera de un cine independiente. En este primer sprint, se ha establecido la arquitectura base y el sistema de seguridad.
+
+🛠️ Tareas Realizadas
+
+Instalación del Entorno: Configuración inicial de Laravel 9.5 y conexión con la base de datos MySQL.
+
+
+Sistema de Autenticación: Implementación de Laravel Breeze para gestionar el registro y el inicio de sesión de usuarios.
+
+
+Gestión de Roles y Seguridad: * Ampliación de la tabla users con el campo is_admin.
+
+Creación de un Middleware personalizado (AdminMiddleware) para restringir el acceso al panel de administración únicamente a usuarios autorizados.
+
+
+Modelado de Datos: Creación de las migraciones y modelos iniciales para el catálogo:
+
+Genres: Tabla para categorizar las películas (Acción, Drama, etc.).
+
+Movies: Tabla con campos para título, sinopsis, duración y calificación por edad.
+
+Relaciones: Definición de una relación de uno a muchos (1:N) entre Géneros y Películas.
+
+📋 Requisitos del Sistema
+PHP ^8.0
+
+Composer
+
+MySQL
+
+Node.js & NPM
+
+⚙️ Instalación
+Clonar el repositorio.
+
+Instalar dependencias de PHP: composer install.
+
+Instalar dependencias de JS: npm install && npm run dev.
+
+Configurar el archivo .env con las credenciales de la base de datos.
+
+Ejecutar migraciones: php artisan migrate.
