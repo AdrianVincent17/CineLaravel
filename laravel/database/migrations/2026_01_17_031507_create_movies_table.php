@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('synopsis');
             $table->integer('duration'); // En minutos
             $table->string('age_rating'); // ej: +12, +18 
-
             // RELACIÓN: Una película pertenece a un género 
             $table->foreignId('genre_id')->constrained()->onDelete('cascade');
             $table->timestamps();

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GenreController;
 
 
 /*
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
     
-    // Aquí irán los CRUDs
+    Route::resource('genres', GenreController::class);
 });
 
 require __DIR__.'/auth.php';

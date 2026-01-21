@@ -2,23 +2,36 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // 1. CREAR ROLES (Si no existen)
+        $roleAdmin = Role::firstOrCreate(['name' => 'admin']);
+        $roleUser = Role::firstOrCreate(['name' => 'user']);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // 2. CREAR USUARIO ADMINISTRADOR
+        // Comprobamos si ya existe para no dar error
+        $user = User::firstOrCreate(
+            ['email' => 'admin@cine.com'], // Buscamos por email
+            [
+                'name' => 'Administrador',
+                'password' => Hash::make('password'), // La contraseña será 'password'
+            ]
+        );
+
+        // 3. ASIGNAR ROL AL ADMIN
+        $user->assignRole($roleAdmin);
+
+        // 4. LLAMAR A LOS SEEDERS DEL GÉNERO Y PELÍCULAS
+        $this->call([
+            GenreSeeder::class,
+            MovieSeeder::class,
+        ]);
     }
 }
