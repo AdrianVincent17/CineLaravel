@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\HomeController;
 use App\Models\Movie;
 
 /*
@@ -18,10 +19,8 @@ use App\Models\Movie;
 |
 */
 
-// Ruta pública
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Rutas de Perfil 
 Route::middleware('auth')->group(function () {

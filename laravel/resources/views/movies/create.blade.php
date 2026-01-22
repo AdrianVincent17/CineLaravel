@@ -66,7 +66,7 @@
 
                         {{-- Botones --}}
                         <div class="flex items-center justify-between">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-dark font-bold py-2 px-4 rounded">
                                 Guardar Película
                             </button>
                             <a href="{{ route('movies.index') }}" class="text-blue-500 hover:text-blue-800">Cancelar</a>

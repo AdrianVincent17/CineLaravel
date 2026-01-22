@@ -17,7 +17,6 @@ class MovieController extends Controller
         return view('movies.index', compact('movies'));
     }
     
-    // ... el resto de funciones las rellenaremos luego
    // 1. Mostrar el formulario
     public function create()
     {
@@ -51,8 +50,47 @@ class MovieController extends Controller
         return redirect()->route('movies.index')
             ->with('success', 'Película creada correctamente.');
     }
-    public function show(Movie $movie) { /* ... */ }
-    public function edit(Movie $movie) { /* ... */ }
-    public function update(Request $request, Movie $movie) { /* ... */ }
-    public function destroy(Movie $movie) { /* ... */ }
+    // 3. Formulario de Edición
+    public function edit($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $genres = Genre::all(); // Necesitamos los géneros para el desplegable
+        return view('movies.edit', compact('movie', 'genres'));
+    }
+
+    // 4. Actualizar datos (y foto si la hay)
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'synopsis' => 'required',
+            'duration' => 'required|integer',
+            'age_rating' => 'required',
+            'genre_id' => 'required',
+            'poster' => 'nullable|image|max:2048' // Aquí es nullable, porque igual no quieres cambiar la foto
+        ]);
+
+        $movie = Movie::findOrFail($id);
+        $movie->update($request->all());
+
+        // Si el usuario ha subido una foto nueva...
+        if ($request->hasFile('poster')) {
+            $movie->clearMediaCollection('poster'); // Borramos la vieja
+            $movie->addMediaFromRequest('poster')
+                  ->toMediaCollection('poster');    // Ponemos la nueva
+        }
+
+        return redirect()->route('movies.index')
+            ->with('success', 'Película actualizada correctamente.');
+    }
+
+    // 5. Borrar película
+    public function destroy($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $movie->delete(); // Esto borra también la imagen automáticamente
+
+        return redirect()->route('movies.index')
+            ->with('success', 'Película eliminada.');
+    }
 }
