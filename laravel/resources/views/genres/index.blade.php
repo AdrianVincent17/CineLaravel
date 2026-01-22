@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-
+                    
                     {{-- Botón Superior (Aún no funciona, pero lo dejamos listo) --}}
                     <div class="flex justify-end mb-4">
                         <a href="{{ route('genres.create') }}" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
@@ -37,7 +37,7 @@
                                         {{ $genre->name }}
                                     </p>
                                 </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <div class="flex items-center">
                                         {{-- Botón Editar --}}
                                         <a href="{{ route('genres.edit', $genre->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
@@ -58,12 +58,12 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                    
                     {{-- Mensaje si está vacío --}}
                     @if($genres->isEmpty())
-                    <div class="text-center py-4 text-gray-500">
-                        No hay géneros creados aún.
-                    </div>
+                        <div class="text-center py-4 text-gray-500">
+                            No hay géneros creados aún.
+                        </div>
                     @endif
 
                 </div>

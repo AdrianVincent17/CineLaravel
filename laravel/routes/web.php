@@ -4,7 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
-
+use App\Http\Controllers\MovieController;
+use App\Models\Movie;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +33,9 @@ Route::middleware('auth')->group(function () {
 // RUTAS DE ADMINISTRACIÓN 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('dashboard');
-    
+
     Route::resource('genres', GenreController::class);
+    Route::resource('movies', MovieController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

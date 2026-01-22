@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Genre; // <--- ¡Importante! Si no pones esto, fallará.
+use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
