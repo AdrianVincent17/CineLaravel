@@ -1,79 +1,69 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Gestionar Películas') }}
-        </h2>
-    </x-slot>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Gestión de Películas</h2>
+        <a href="{{ route('movies.create') }}" class="btn btn-primary">
+            + Nueva Película
+        </a>
+    </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="ps-4">Póster</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Género</th>
+                        <th scope="col">Duración</th>
+                        <th scope="col">Edad</th>
+                        <th scope="col" class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($movies as $movie)
+                    <tr>
+                        <td class="ps-4">
+                            @if($movie->getFirstMediaUrl('poster'))
+                                <img src="{{ $movie->getFirstMediaUrl('poster') }}" width="50" class="rounded border">
+                            @else
+                                <span class="badge bg-secondary">Sin img</span>
+                            @endif
+                        </td>
+                        <td class="fw-bold">{{ $movie->title }}</td>
+                        <td>
+                            <span class="badge bg-info text-dark">{{ $movie->genre->name }}</span>
+                        </td>
+                        <td>{{ $movie->duration }} min</td>
+                        <td>{{ $movie->age_rating }}</td>
+                        <td class="text-end pe-4">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('movies.edit', $movie->id) }}" class="btn btn-sm btn-outline-primary">
+                                    Editar
+                                </a>
 
-                    <div class="flex justify-end mb-4">
-                        <a href="{{ route('movies.create') }}" class="bg-blue-500 hover:bg-blue-700 text-dark font-bold py-2 px-4 rounded">
-                            + Nueva Película
-                        </a>
-                    </div>
+                                <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" onsubmit="return confirm('¿Borrar {{ $movie->title }}?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        Borrar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
 
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Póster
-                                </th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Título
-                                </th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Género
-                                </th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Acciones
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($movies as $movie)
-                            <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    {{-- Aquí mostramos la imagen si existe --}}
-                                    @if($movie->getFirstMediaUrl('poster'))
-                                    <img src="{{ $movie->getFirstMediaUrl('poster') }}" width="50" class="rounded">
-                                    @else
-                                    <span class="text-gray-400">Sin imagen</span>
-                                    @endif
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap font-bold">{{ $movie->title }}</p>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                        <span class="relative">{{ $movie->genre->name }}</span>
-                                    </span>
-                                </td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div class="flex items-center">
-                                        <a href="{{ route('movies.edit', $movie->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                                            Editar
-                                        </a>
-
-                                        <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres borrar esta película?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 bg-transparent border-0 cursor-pointer">
-                                                Borrar
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                    @if($movies->isEmpty())
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                No hay películas registradas todavía.
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
+
 </x-app-layout>

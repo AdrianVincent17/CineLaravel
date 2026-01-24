@@ -1,42 +1,39 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Nueva Película') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0 fw-bold">Nueva Película</h4>
+                </div>
+                <div class="card-body p-4">
                     
-                    {{-- ¡OJO! El enctype es OBLIGATORIO para subir archivos --}}
                     <form action="{{ route('movies.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf 
 
                         {{-- Título --}}
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Título:</label>
-                            <input type="text" name="title" class="border rounded w-full py-2 px-3" required>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Título</label>
+                            <input type="text" name="title" class="form-control" required>
                         </div>
 
                         {{-- Sinopsis --}}
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Sinopsis:</label>
-                            <textarea name="synopsis" rows="3" class="border rounded w-full py-2 px-3" required></textarea>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Sinopsis</label>
+                            <textarea name="synopsis" rows="3" class="form-control" required></textarea>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="row">
                             {{-- Duración --}}
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Duración (min):</label>
-                                <input type="number" name="duration" class="border rounded w-full py-2 px-3" required>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Duración (min)</label>
+                                <input type="number" name="duration" class="form-control" required>
                             </div>
 
-                            {{-- Calificación Edad --}}
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Edad:</label>
-                                <select name="age_rating" class="border rounded w-full py-2 px-3">
+                            {{-- Edad --}}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Calificación Edad</label>
+                                <select name="age_rating" class="form-select">
                                     <option value="TP">TP (Todos los públicos)</option>
                                     <option value="+7">+7</option>
                                     <option value="+12">+12</option>
@@ -46,30 +43,28 @@
                             </div>
                         </div>
 
-                        {{-- Género (Cargado desde BD) --}}
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Género:</label>
-                            <select name="genre_id" class="border rounded w-full py-2 px-3" required>
-                                <option value="">Selecciona un género...</option>
+                        {{-- Género --}}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Género</label>
+                            <select name="genre_id" class="form-select" required>
+                                <option value="">Selecciona...</option>
                                 @foreach($genres as $genre)
                                     <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        {{-- IMAGEN (Póster) --}}
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Póster de la Película:</label>
-                            <input type="file" name="poster" class="border rounded w-full py-2 px-3" accept="image/*" required>
-                            <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG. Máx 2MB.</p>
+                        {{-- PÓSTER --}}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Póster de la Película</label>
+                            <input type="file" name="poster" class="form-control" accept="image/*" required>
+                            <div class="form-text">Formatos: JPG, PNG. Máx 2MB.</div>
                         </div>
 
                         {{-- Botones --}}
-                        <div class="flex items-center justify-between">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-dark font-bold py-2 px-4 rounded">
-                                Guardar Película
-                            </button>
-                            <a href="{{ route('movies.index') }}" class="text-blue-500 hover:text-blue-800">Cancelar</a>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('movies.index') }}" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-success px-4">Guardar Película</button>
                         </div>
                     </form>
 
@@ -77,4 +72,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>
